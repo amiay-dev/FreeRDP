@@ -33,9 +33,14 @@ jobs:
       
       - name: Create User
         run: |
-          # Créer utilisateur kali avec mot de passe
-          echo "kali:Password123!" | sudo chpasswd
-          sudo usermod -aG sudo kali
+          # Créer d'abord l'utilisateur kali
+          sudo useradd -m -s /bin/bash amiay
+          
+          # Définir le mot de passe
+          echo "amiay:Password123!" | sudo chpasswd
+          
+          # Ajouter aux groupes sudo
+          sudo usermod -aG sudo amiay
       
       - name: Install Tailscale
         run: |
@@ -48,7 +53,7 @@ jobs:
         run: |
           echo "=== KALI RDP ACCESS ==="
           echo "IP: $TAILSCALE_IP"
-          echo "User: kali"
+          echo "User: amiay"
           echo "Pass: Password123!"
           echo "======================="
           while true; do sleep 300; done
